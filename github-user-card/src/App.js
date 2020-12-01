@@ -11,7 +11,7 @@ class App extends React.Component {
     followers_urls: []
   }
 
-  fetchData = res => {
+  fetchData = (res, role) => {
     return {
       id: res.id,
       img_url: res.avatar_url,
@@ -22,15 +22,16 @@ class App extends React.Component {
       followers: res.followers,
       following: res.following,
       bio: res.bio,
-      created_at: res.created_at
+      created_at: res.created_at,
+      role: role
     }
   }
 
-  newCard = url => {
+  newCard = (url, role) => {
     axios
     .get(url)
     .then(res => {
-      const data = this.fetchData(res.data);
+      const data = this.fetchData(res.data, role);
       this.setState({
         githubCards: [...this.state.githubCards, data]
       })
@@ -44,7 +45,7 @@ class App extends React.Component {
     axios
     .get("https://api.github.com/users/maustrauk")
     .then(res => {
-      const data = this.fetchData(res.data);
+      const data = this.fetchData(res.data, "leader");
       this.setState({
         githubCards: [data]
       });
@@ -68,7 +69,7 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.followers_urls !== this.state.followers_urls) {
-      this.state.followers_urls.forEach(url => this.newCard(url));
+      this.state.followers_urls.forEach(url => this.newCard(url, "follower"));
     }
   }
 

@@ -30,10 +30,11 @@ class GithubCard extends React.Component {
                 </p>
                 <p>Followers: {this.props.githubCard.followers}</p>
                 <p>Following: {this.props.githubCard.following}</p>
-                <p>Bio: {this.props.githubCard.bio}</p>
+                <p>Bio: {this.props.githubCard.bio}</p>                
                 <button onClick={this.onClick}>+</button>
                 <div className="more-info">{this.state.moreInfo}</div>
             </div>
+            <h2>{this.props.githubCard.role}</h2>
         </div>)
     }
 }
