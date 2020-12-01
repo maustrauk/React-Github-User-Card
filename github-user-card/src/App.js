@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 
 import GithubCrad from './components/GithubCard';
+import FindUserForm from './forms/FindUserForm';
 
 class App extends React.Component {
 
@@ -41,11 +42,15 @@ class App extends React.Component {
     })
   }
 
-  componentDidMount() {
+  onSubmit = (username) => {
+    this.leaderMount(username);
+  }
+
+  leaderMount = (username) => {
     axios
-    .get("https://api.github.com/users/maustrauk")
+    .get(`https://api.github.com/users/${username}`)
     .then(res => {
-      const data = this.fetchData(res.data, "leader");
+      const data = this.fetchData(res.data, "Leader");
       this.setState({
         githubCards: [data]
       });
@@ -55,7 +60,7 @@ class App extends React.Component {
     })
 
     axios
-    .get("https://api.github.com/users/maustrauk/followers")
+    .get(`https://api.github.com/users/${username}/followers`)
     .then(res => {
       const data = res.data.map(obj => obj.url);
       this.setState({
@@ -67,9 +72,13 @@ class App extends React.Component {
     })
   }
 
+  componentDidMount() {
+    this.leaderMount('maustrauk');
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.followers_urls !== this.state.followers_urls) {
-      this.state.followers_urls.forEach(url => this.newCard(url, "follower"));
+      this.state.followers_urls.forEach(url => this.newCard(url, "Follower"));
     }
   }
 
@@ -81,6 +90,7 @@ class App extends React.Component {
         <img src="./assets/githublogo.png" alt="GitHub Logo" />
       </div>
       <div className="cards">
+        <FindUserForm onSubmit={this.onSubmit}/>
         {
           this.state.githubCards.map((githubCard) => (
             <GithubCrad githubCard={githubCard} key={githubCard.id} />
