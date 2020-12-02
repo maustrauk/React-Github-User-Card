@@ -85,9 +85,7 @@ class App extends React.Component {
   render() {
     return (<div className="container">
       <div className="header">
-        <img src="./assets/githublogo.png" alt="Lambda Logo"/>
-        <p>❤️'s</p>
-        <img src="./assets/githublogo.png" alt="GitHub Logo" />
+        <p>❤️'s this App</p>
       </div>
       <div className="cards">
         <FindUserForm onSubmit={this.onSubmit}/>
